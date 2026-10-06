@@ -24,8 +24,12 @@ def main():
 
 # Display options in main menu
 def main_menu():
+    # Index 0 for description of the menu_option
+    description = 0
+
     for option in menu_options.values():
-        print(option[0])
+        print(option[description])
+        
     return int(input("Select Option: "))
 
 
