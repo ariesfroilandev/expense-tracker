@@ -1,11 +1,11 @@
 import sys
 from expense_categories import show_expense_categories
-
+from add_expense import add_expense
 
 # Dictionary for menu options and their functions
 menu_options = {
     1 : ["[1] Dashboard", None],
-    2 : ["[2] Add Expense", None],
+    2 : ["[2] Add Expense", add_expense],
     3 : ["[3] Expense History", None],
     4 : ["[4] Expense Categories", show_expense_categories],
     5 : ["[5] Monthly Budget", None],
