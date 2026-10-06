@@ -30,7 +30,7 @@ def main_menu():
     for option in menu_options.values():
         print(option[description])
         
-    return int(input("Select Option: "))
+    return int(input("Select an option: "))
 
 
 main()
