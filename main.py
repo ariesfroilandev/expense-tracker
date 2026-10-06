@@ -17,8 +17,12 @@ def main():
     # Index 1 to call the function in menu_option
     call_function = 1
 
-    select = main_menu()
-    menu_options[select][call_function]()
+    while True:
+        print("=======================")
+        print("    EXPENSE TRACKER")
+        print("=======================")
+        select = main_menu()
+        menu_options[select][call_function]()
 
 
 
