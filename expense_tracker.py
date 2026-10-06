@@ -1,3 +1,14 @@
+expense_categories = [
+    "Food",
+    "Transportation",
+    "Bills",
+    "Shopping",
+    "Entertainment",
+    "Health",
+    "Others",
+    ]
+
+
 def main():
     main_menu()
 
@@ -11,5 +22,9 @@ def main_menu():
     print("[5] Monthly Budget")
     return input("Select Option: ")
 
+
+def show_expense_categories():
+    for category in expense_categories:
+        print(category)
 
 main()
