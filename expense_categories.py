@@ -37,6 +37,6 @@ def show_expense_categories():
             continue
 
         if 0 < selected_option < 3:
-            return selected_option
+            return ("expense_categories", selected_option)
 
         print("Invalid option. Try Again")
