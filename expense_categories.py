@@ -6,7 +6,12 @@ expense_categories = [
     "Entertainment",
     "Health",
     "Others",
-    ]
+]
+
+menu_options = {
+    1 : "[1] to add a new category",
+    2 : "[2] to go back to main menu",
+}
 
 
 def show_expense_categories():
@@ -20,17 +25,18 @@ def show_expense_categories():
     print("================")
 
     while True:
-        print("[1] to add a new category")
-        print("[2] to go back to main menu")
+        # Display menu_options
+        for option in menu_options.values():
+            print(option)
 
         try:
-            option = int(input("Select an option: "))
+            selected_option = int(input("Select an option: "))
 
         except ValueError:
             print("Invalid option. Try Again")
             continue
 
-        if 0 < option < 3:
-            return option
+        if 0 < selected_option < 3:
+            return ("expense_categories", selected_option)
 
         print("Invalid option. Try Again")
