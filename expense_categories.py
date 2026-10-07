@@ -49,7 +49,7 @@ def add_category():
 
     print("Category added.")
 
-
+# Add category list and remove whitespaces
 def get_category_list():
     with open("expense_categories.txt") as file:
         return [items.strip() for items in file.readlines()]
