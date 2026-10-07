@@ -25,7 +25,6 @@ def main():
         menu_options[select][call_function]()
 
 
-
 # Display options in main menu
 def main_menu():
     # Index 0 for description of the menu_option
