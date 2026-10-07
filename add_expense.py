@@ -40,6 +40,6 @@ def add_expense():
 
     with open("expenses.csv", "a", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow([amount, category, date, note])
+        writer.writerow([category, amount, date, note])
 
     print("Expense added")
