@@ -5,9 +5,9 @@ category_options = {
 
 
 def show_expense_categories(read_only=False):
-    print("================")
-    print("   CATEGORIES   ")
-    print("================")
+    print("=======================")
+    print("      CATEGORIES   ")
+    print("=======================")
 
     # Display list of categories from txt file
     with open("expense_categories.txt") as file:
@@ -16,7 +16,7 @@ def show_expense_categories(read_only=False):
         for category in categories:
             print(category.strip())
 
-    print("================")
+    print("=======================")
 
     # Condition for when function is called only to show categories 
     if not read_only:
