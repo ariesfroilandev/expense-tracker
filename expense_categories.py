@@ -4,7 +4,7 @@ category_options = {
 }
 
 
-def show_expense_categories():
+def show_expense_categories(read_only=False):
     print("================")
     print("   CATEGORIES   ")
     print("================")
@@ -18,25 +18,27 @@ def show_expense_categories():
 
     print("================")
 
-    while True:
-        # Display menu_options
-        for option in category_options.values():
-            print(option)
+    # Condition for when function is called only to show categories 
+    if not read_only:
+        while True:
+            # Display menu_options
+            for option in category_options.values():
+                print(option)
 
-        try:
-            selected_option = int(input("Select an option: "))
+            try:
+                selected_option = int(input("Select an option: "))
 
-        except ValueError:
-            print("Invalid option. Try Again")
-            continue
+            except ValueError:
+                print("Invalid option. Try Again")
+                continue
 
-        # Checks which action to do next based on selected option
-        if selected_option == len(category_options):
-            return
+            # Checks which action to do next based on selected option
+            if selected_option == len(category_options):
+                return
 
-        match selected_option:
-            case 1:
-                add_category()
+            match selected_option:
+                case 1:
+                    add_category()
                 
 
 
