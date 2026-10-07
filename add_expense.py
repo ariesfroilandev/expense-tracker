@@ -1,5 +1,4 @@
 import csv
-import re
 from expense_categories import show_expense_categories, get_category_list
 from datetime import datetime
 
