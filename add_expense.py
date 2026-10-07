@@ -8,18 +8,8 @@ def add_expense():
     print("      ADD EXPENSE")
     print("=======================")
 
-    # Input validation for amount
-    while True:
-        try: 
-            amount = int(input("Amount: "))
-            break
-        except ValueError:
-            print("Invalid input")
-
     show_expense_categories(True)
-
     category_list = get_category_list()
-
     # Input validation for category
     while True:
         category = input("Category: ")
@@ -27,6 +17,14 @@ def add_expense():
             break
 
         print("Invalid input")
+
+    # Input validation for amount
+    while True:
+        try: 
+            amount = int(input("Amount: "))
+            break
+        except ValueError:
+            print("Invalid input")
 
     # Input validation for date
     while True:
