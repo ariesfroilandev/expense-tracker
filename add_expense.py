@@ -1,6 +1,7 @@
 import csv
 import re
-from expense_categories import show_expense_categories
+from expense_categories import show_expense_categories, get_category_list
+from datetime import datetime
 
 
 def add_expense():
@@ -8,6 +9,7 @@ def add_expense():
     print("      ADD EXPENSE")
     print("=======================")
 
+    # Input validation for amount
     while True:
         try: 
             amount = int(input("Amount: "))
@@ -17,10 +19,9 @@ def add_expense():
 
     show_expense_categories(True)
 
-    # Assign list from txt file and remove whitespaces
-    with open("expense_categories.txt") as file:
-        category_list = [item.strip() for item in file.readlines()]
+    category_list = get_category_list()
 
+    # Input validation for category
     while True:
         category = input("Category: ")
         if category in category_list:
@@ -28,10 +29,20 @@ def add_expense():
 
         print("Invalid input")
 
-    
-    date = input("Date(MM-DD-YYYY): ")
+    # Input validation for date
+    while True:
+        date = input("Date(MM-DD-YYYY): ")
+
+        try:
+            datetime.strptime(date, "%m-%d-%Y")
+            break
+        except:
+            print("Invalid input")
+
     note = input("Note: ")
 
     with open("expenses.csv", "a", newline="") as file:
         writer = csv.writer(file)
         writer.writerow([amount, category, date, note])
+
+    print("Expense added")
