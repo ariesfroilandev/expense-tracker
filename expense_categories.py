@@ -10,11 +10,10 @@ def show_expense_categories():
     print("================")
 
     # Display list of categories from txt file
-    with open("expense_categories.txt") as file:
-        categories = file.readlines()
-        
-        for category in categories:
-            print(category.strip())
+    
+    category_list = get_category_list()
+    for category in category_list:
+        print(category)
 
     print("================")
 
@@ -39,7 +38,6 @@ def show_expense_categories():
                 add_category()
                 
 
-
 def add_category():
     new_category = input("Type new category: ")
 
@@ -49,3 +47,7 @@ def add_category():
 
     print("Category added.")
 
+
+def get_category_list():
+    with open("expense_categories.txt") as file:
+        return [items.strip() for items in file.readlines()]
