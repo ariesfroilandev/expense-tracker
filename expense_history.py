@@ -8,9 +8,9 @@ def show_expenses():
 
         for row in reader:
                 print("=======================")
-                print(f"Amount: {row["amount"]}")
-                print(f"Category: {row["category"]}")
-                print(f"Date: {row["date"]}")
-                print(f"Note: {row["note"]}")
+                print(f"Amount: {row['amount']}")
+                print(f"Category: {row['category']}")
+                print(f"Date: {row['date']}")
+                print(f"Note: {row['note']}")
 
     input()
