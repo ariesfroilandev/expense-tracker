@@ -2,6 +2,7 @@ import sys
 from expense_categories import show_expense_categories
 from add_expense import add_expense
 from expense_history import show_expenses
+from budget import show_budget
 
 # Dictionary for menu options and their functions
 menu_options = {
@@ -9,7 +10,7 @@ menu_options = {
     2 : ["[2] Add Expense", add_expense],
     3 : ["[3] Expense History", show_expenses],
     4 : ["[4] Expense Categories", show_expense_categories],
-    5 : ["[5] Monthly Budget", None],
+    5 : ["[5] Budget", show_budget],
     6 : ["[6] Exit", sys.exit],
 }
 

@@ -28,10 +28,10 @@ def add_expense():
 
     # Input validation for date
     while True:
-        date = input("Date(MM-DD-YYYY): ")
+        date = input("Date(MM/DD/YYYY): ")
 
         try:
-            datetime.strptime(date, "%m-%d-%Y")
+            datetime.strptime(date, "%m/%d/%Y")
             break
         except:
             print("Invalid input")
@@ -39,7 +39,12 @@ def add_expense():
     note = input("Note: ")
 
     with open("expenses.csv", "a", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow([category, amount, date, note])
+        writer = csv.DictWriter(file, fieldnames=["category", "amount", "date", "note"])
+        writer.writerow({
+            "category": category, 
+            "amount": amount,
+            "date": date,
+            "note": note,
+            })
 
     print("Expense added")
