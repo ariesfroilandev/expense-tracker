@@ -49,10 +49,13 @@ def input_budget():
     # Input Validation for budget
     while True:
         try:
-            budget = int(input("Budget Amount: "))
-            break
+            budget = float(input("Budget Amount: "))
+            if budget < 0:
+                print("Please enter valid amount.")
+            else:
+                break
         except ValueError:
-            print("Invalid input. Try Again.")
+            print("Invalid input. Try again.")
 
     # Input validation for date
     while True:    
@@ -61,7 +64,7 @@ def input_budget():
             datetime.strptime(date, "%m/%Y")
             break
         except:
-            print("Invalid input. Try Again")
+            print("Invalid date. Try again.")
 
     # Validate if csv file exist
     try:
@@ -76,7 +79,7 @@ def input_budget():
         writer = csv.DictWriter(file, fieldnames=["date", "budget"])
         writer.writerow({
             "date": date,
-            "budget": budget
+            "budget": round(budget, 2)
             })
 
 

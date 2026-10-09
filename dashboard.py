@@ -8,7 +8,14 @@ def get_dashboard():
     print("       DASHBOARD")
     print("=======================")
 
-    date, budget = current_budget().values()
+    budget = current_budget()
+    # Checks if budget returns a value
+    if budget is None:
+        print("No budget set for this month.")
+        input()
+        return
+
+    date, budget = current_budget()
     date = format_date(date)
     print(f"{date.upper()}")
     print(f"Budget: ${float(budget):,.2f}")
