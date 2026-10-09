@@ -15,12 +15,12 @@ def get_dashboard():
 
     current_expenses = get_current_expenses()
     if current_expenses == 0:
-        print(f"Total Expenses: 0.00")
+        print(f"Total Expenses: $0.00")
     else:
         print(f"Total Expenses: {float(current_expenses):,.2f}")
         
     remaining_budget = get_remaining_budget(float(budget), float(current_expenses))
-    print(f"Remaining Budget: {remaining_budget:,.2f}")
+    print(f"Remaining Budget: ${remaining_budget:,.2f}")
 
     input()
 
