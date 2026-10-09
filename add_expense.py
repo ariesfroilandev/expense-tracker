@@ -58,7 +58,7 @@ def add_expense():
     category_list = get_category_list()
     # Input validation for category
     while True:
-        category = input("Category: ")
+        category = input("Category: ").capitalize()
         if category in category_list:
             break
 
