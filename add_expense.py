@@ -28,14 +28,14 @@ class Expense():
     @amount.setter
     def amount(self, amount):
         try:
-            value = int(amount)
+            value = float(amount)
         except ValueError: 
-            raise ValueError("Input must be a number.") from None
+            raise ValueError("Input must be a float/integer.") from None
         
         if value < 1:
             raise ValueError("Amount must be greater than zero.")
 
-        self._amount = value
+        self._amount = round(value, 2)
 
     @property
     def date(self):
@@ -43,10 +43,8 @@ class Expense():
 
     @date.setter
     def date(self, date):
-        try:
-            datetime.strptime(date, "%m/%Y")
-        except ValueError:
-            raise ValueError("Invalid input") from None
+        if not validate_date(date):  
+            raise ValueError("Invalid input. Date format (MM/YYYY)") from None
 
         self._date = date
     
@@ -69,20 +67,22 @@ def add_expense():
     # Input validation for amount
     while True:
         try: 
-            amount = int(input("Amount: "))
+            amount = float(input("Amount: "))
             break
         except ValueError:
-            print("Invalid input")
+            print("Invalid input.")
+
+        if amount < 1:
+            print("Amount must be greater than zero.")
 
     # Input validation for date
     while True:
         date = input("Date(MM/YYYY): ")
 
-        try:
-            datetime.strptime(date, "%m/%Y")
+        if validate_date(date):
             break
-        except ValueError:
-            print("Invalid input. Date format should be (MM/YYYY)")
+
+        print("Invalid input. Date format should be (MM/YYYY)")
 
     note = input("Note: ")
     
@@ -98,3 +98,12 @@ def add_expense():
             })
 
     print("Expense added")
+
+
+# input/data validation for date
+def validate_date(date):
+    try:
+        datetime.strptime(date, "%m/%Y")
+        return True
+    except ValueError:
+        return False
