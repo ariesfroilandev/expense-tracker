@@ -7,9 +7,9 @@ def show_budget():
     print("        BUDGET")
     print("=======================")
     budget = get_budget()
-
     # Asks user to enter budget if no data was entered before
     if budget == "empty":
+        print("No monthly budget previously saved.")
         # loop for input validation
         while True:
             confirm = input("Would you like to enter this month's budget?[y/n]: ").lower()
@@ -33,13 +33,15 @@ def show_budget():
 
 # Get budget records from from csv file
 def get_budget():
-    with open("budget.csv") as file:
-        reader = csv.DictReader(file)
+    return read_file("budget.csv")
 
-        # Checks if csv file have budget data other than the fieldnames
+
+def read_file(csv_file):
+    with open(csv_file) as file:
+        reader = csv.DictReader(file)
+        # Returns row of data other than the fieldnames
         rows = list(reader)
         if not rows:
-            print("No monthly budget previously saved.")
             return "empty"
 
         return rows
