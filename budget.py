@@ -25,11 +25,10 @@ def show_budget():
 
     for row in budget:
         print(f"Date: {row['date']}")
-        print(f"Budget: ${float(row['budget']):,.2f}\n")
+        print(f"Budget: ${float(row['budget']):,.2f}")
 
     input()
     
-
 
 # Get budget records from from csv file
 def get_budget():
@@ -72,3 +71,13 @@ def input_budget():
             "date": date,
             "budget": budget
             })
+
+
+def current_budget():
+    budget_list = get_budget()
+    today = datetime.today()
+    today = today.strftime("%m/%Y")
+
+    for budget in budget_list:
+        if budget["date"] == today:
+            return budget
