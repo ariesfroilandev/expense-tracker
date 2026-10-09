@@ -6,7 +6,7 @@ def show_budget():
     print("=======================")
     print("        BUDGET")
     print("=======================")
-    budget = get_current_budget()
+    budget = get_budget()
 
     # Asks user to enter budget if no data was entered before
     if budget == "empty":
@@ -23,12 +23,16 @@ def show_budget():
 
         return
 
+    for row in budget:
+        print(f"Date: {row['date']}")
+        print(f"Budget: PHP {row['budget']}\n")
+
     input()
     
 
 
-# Get the current month's budget from from csv file
-def get_current_budget():
+# Get budget records from from csv file
+def get_budget():
     with open("budget.csv") as file:
         reader = csv.DictReader(file)
 
@@ -38,9 +42,7 @@ def get_current_budget():
             print("No monthly budget previously saved.")
             return "empty"
 
-        for row in rows:
-            print(f"Date: {row['date']}")
-            print(f"Budget: {row['budget']}")
+        return rows
 
 
 def input_budget():
