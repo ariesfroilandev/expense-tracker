@@ -5,6 +5,7 @@ from expense_history import show_expenses
 from budget import show_budget
 from dashboard import get_dashboard
 
+
 # Dictionary for menu options and their functions
 menu_options = {
     1 : ["[1] Dashboard", get_dashboard],
@@ -37,6 +38,6 @@ def main_menu():
         print(option[description])
         
     return int(input("Select an option: "))
-
+    
 
 main()

@@ -1,5 +1,5 @@
 from datetime import datetime
-from budget import get_budget
+from budget import read_file
 
 
 def get_dashboard():
@@ -7,9 +7,11 @@ def get_dashboard():
     print("       DASHBOARD")
     print("=======================")
 
-    budget = current_budget(get_budget())
+    budget = current_budget(read_file("budget.csv"))
     date = format_date(budget["date"])
-    print(f"{date}: ${float(budget["budget"]):,.2f}")
+    print(date.upper())
+    print(f"Budget: ${float(budget["budget"]):,.2f}")
+    print(f"Total Expenses: ")
 
     input()
 
@@ -26,3 +28,7 @@ def current_budget(budget_list):
 def format_date(old):
     new = datetime.strptime(old, "%m/%Y")
     return new.strftime("%B %Y")
+
+
+def get_current_expenses():
+    ...

@@ -1,17 +1,26 @@
 import csv
+from budget import read_file
+
 
 def show_expenses():
     print("=======================")
     print("    EXPENSE HISTORY")
     print("=======================")
-    with open("expenses.csv") as file:
-        reader = csv.DictReader(file)
+    
+    rows = get_expenses()
+    if rows == "empty":
+        print("No expenses recorded.")
 
-        for row in reader:
-                print(f"Amount: ${float(row['amount']):,.2f}")
-                print(f"Category: {row['category']}")
-                print(f"Date: {row['date']}")
-                print(f"Note: {row['note']}")
-                print("=======================")
+    else:
+        for row in rows:
+            print(f"Amount: ${float(row['amount']):,.2f}")
+            print(f"Category: {row['category']}")
+            print(f"Date: {row['date']}")
+            print(f"Note: {row['note']}")
+            print("=======================")
 
     input()
+
+
+def get_expenses():
+    return read_file("expenses.csv")
