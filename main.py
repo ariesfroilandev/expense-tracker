@@ -33,11 +33,22 @@ def main():
 def main_menu():
     # Index 0 for description of the menu_option
     description = 0
-
+    
     for option in menu_options.values():
         print(option[description])
-        
-    return int(input("Select an option: "))
-    
+
+    # Input validation for selecting menu option
+    while True:
+        try:
+            option = int(input("Select an option: "))
+        except ValueError:
+            print("Please enter a number.")
+            continue
+
+        if option <= len(menu_options):
+            return option
+
+        print("Invalid option. Try again.")
+
 
 main()
