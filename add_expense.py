@@ -81,7 +81,7 @@ def add_expense():
         try:
             datetime.strptime(date, "%m/%Y")
             break
-        except:
+        except ValueError:
             print("Invalid input. Date format should be (MM/YYYY)")
 
     note = input("Note: ")
