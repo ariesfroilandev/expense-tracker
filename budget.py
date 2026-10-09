@@ -36,9 +36,13 @@ def get_budget():
 
 
 def read_file(csv_file):
-    with open(csv_file) as file:
-        # Returns row of data other than the fieldnames
-        return list(csv.DictReader(file))
+    try:
+        with open(csv_file, newline="") as file:
+            # Returns row of data other than the fieldnames
+            return list(csv.DictReader(file))
+    except FileNotFoundError:
+        # Return empty list if file does not exist
+        return []
 
 
 def input_budget():
@@ -59,7 +63,15 @@ def input_budget():
         except:
             print("Invalid input. Try Again")
 
+    # Validate if csv file exist
+    try:
+        with open("budget.csv", "x", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=["date", "budget"])
+            writer.writeheader()
+    except FileExistsError:
+        pass
 
+    
     with open("budget.csv", "a", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["date", "budget"])
         writer.writerow({
