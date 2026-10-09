@@ -25,7 +25,7 @@ def show_budget():
 
     for row in budget:
         print(f"Date: {row['date']}")
-        print(f"Budget: PHP {row['budget']}\n")
+        print(f"Budget: ${float(row['budget']):,.2f}\n")
 
     input()
     

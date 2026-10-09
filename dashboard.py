@@ -1,7 +1,4 @@
-import time
 from datetime import datetime
-import csv
-import re
 from budget import get_budget
 
 
@@ -12,7 +9,7 @@ def get_dashboard():
 
     budget = current_budget(get_budget())
     date = format_date(budget["date"])
-    print(f"{date}: PHP {budget["budget"]}")
+    print(f"{date}: ${float(budget["budget"]):,.2f}")
 
     input()
 
