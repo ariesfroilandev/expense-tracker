@@ -41,7 +41,7 @@ def show_expense_categories(read_only=False):
                 
 
 def add_category():
-    new_category = input("Type new category: ").lower()
+    new_category = input("Type new category: ").capitalize()
 
     # Append new category to txt file
     with open("expense_categories.txt", "a") as file:
@@ -53,4 +53,4 @@ def add_category():
 # get category list, remove whitespaces and capitalize
 def get_category_list():
     with open("expense_categories.txt") as file:
-        return [items.strip().capitalize() for items in file]
+        return [items.strip() for items in file]
