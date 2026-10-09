@@ -12,10 +12,14 @@ def show_expense_categories(read_only=False):
     # Display list of categories from txt file
     
     category_list = get_category_list()
-    for category in category_list:
-        print(category)
+    if not category_list:
+        print("No existing category.")
 
-    print("=======================")
+    else:    
+        for category in category_list:
+            print(category)
+
+        print("=======================")
 
     # Condition for when function is called only to show categories 
     if not read_only:
@@ -31,6 +35,10 @@ def show_expense_categories(read_only=False):
                 print("Invalid option. Try Again")
                 continue
 
+            if selected_option > len(category_options):
+                print("Invalid option. Try Again")
+                continue
+
             # Checks which action to do next based on selected option
             if selected_option == len(category_options):
                 return
@@ -41,16 +49,43 @@ def show_expense_categories(read_only=False):
                 
 
 def add_category():
-    new_category = input("Type new category: ").capitalize()
+    while True:
+        # Validate if input is just whitespace
+        new_category = input("Type new category: ").strip()
 
-    # Append new category to txt file
-    with open("expense_categories.txt", "a") as file:
-        file.write(f"{new_category}\n")
+        if new_category:
+            category_list = get_category_list()
+
+            # Breaks from loop if list is empty
+            if not category_list:
+                break
+
+            # Breaks from loop if new catergory is not on the existing category list
+            if not (new_category.capitalize() in category_list):
+                break
+
+            print("Category already on the list.")
+            continue
+
+        print("Category can't be blank.")
+            
+    # Checks for existing file
+    try:
+        with open("expense_categories.txt", "x") as file:
+            file.write(f"{new_category.capitalize()}\n")
+
+    except FileExistsError:
+        # Append new category to txt file
+        with open("expense_categories.txt", "a") as file:
+            file.write(f"{new_category.capitalize()}\n")
 
     print("Category added.")
 
 
 # get category list, remove whitespaces and capitalize
 def get_category_list():
-    with open("expense_categories.txt") as file:
-        return [items.strip() for items in file]
+    try:
+        with open("expense_categories.txt") as file:
+            return [items.strip() for items in file]
+    except FileNotFoundError:
+        return []
