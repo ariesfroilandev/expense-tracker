@@ -1,5 +1,6 @@
 from storage import read_csvfile
 from decimal import Decimal
+from classes import Expense
 
 
 def get_total_expenses():
