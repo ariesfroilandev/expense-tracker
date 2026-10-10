@@ -1,5 +1,5 @@
-import csv
-from budget import read_file
+from storage import read_csvfile
+from decimal import Decimal
 
 
 def show_expenses():
@@ -13,7 +13,7 @@ def show_expenses():
 
     else:
         for row in rows:
-            print(f"Amount: ${float(row['amount']):,.2f}")
+            print(f"Amount: ${Decimal(row['amount']):,.2f}")
             print(f"Category: {row['category']}")
             print(f"Date: {row['date']}")
             print(f"Note: {row['note']}")
@@ -23,4 +23,4 @@ def show_expenses():
 
 
 def get_expenses():
-    return read_file("expenses.csv")
+    return read_csvfile("expenses.csv")

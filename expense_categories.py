@@ -1,3 +1,5 @@
+import storage
+
 category_options = {
     1 : "[1] to add a new category",
     2 : "[2] to go back to main menu",
@@ -10,7 +12,6 @@ def show_expense_categories(read_only=False):
     print("=======================")
 
     # Display list of categories from txt file
-    
     category_list = get_category_list()
     if not category_list:
         print("No existing category.")
@@ -69,23 +70,10 @@ def add_category():
 
         print("Category can't be blank.")
             
-    # Checks for existing file
-    try:
-        with open("expense_categories.txt", "x") as file:
-            file.write(f"{new_category.capitalize()}\n")
-
-    except FileExistsError:
-        # Append new category to txt file
-        with open("expense_categories.txt", "a") as file:
-            file.write(f"{new_category.capitalize()}\n")
-
+    storage.add_category("expense_categories.txt", new_category)
     print("Category added.")
 
 
-# get category list, remove whitespaces and capitalize
+# Get category list and remove whitespaces
 def get_category_list():
-    try:
-        with open("expense_categories.txt") as file:
-            return [items.strip() for items in file]
-    except FileNotFoundError:
-        return []
+    return storage.read_txtfile("expense_categories.txt")

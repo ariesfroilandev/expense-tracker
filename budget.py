@@ -1,6 +1,6 @@
-import csv
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
+from storage import read_csvfile, add_budget
 
 
 def show_budget():
@@ -33,17 +33,7 @@ def show_budget():
 
 # Get budget records from from csv file
 def get_budget():
-    return read_file("budget.csv")
-
-
-def read_file(csv_file):
-    try:
-        with open(csv_file, newline="") as file:
-            # Returns row of data other than the fieldnames
-            return list(csv.DictReader(file))
-    except FileNotFoundError:
-        # Return empty list if file does not exist
-        return []
+    return read_csvfile("budget.csv")
 
 
 def input_budget():
@@ -67,21 +57,9 @@ def input_budget():
         except:
             print("Invalid date. Try again.")
 
-    # Validate if csv file exist
-    try:
-        with open("budget.csv", "x", newline="") as file:
-            writer = csv.DictWriter(file, fieldnames=["date", "budget"])
-            writer.writeheader()
-    except FileExistsError:
-        pass
+    add_budget("budget.csv", date, budget)
 
-    
-    with open("budget.csv", "a", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["date", "budget"])
-        writer.writerow({
-            "date": date,
-            "budget": budget,
-            })
+    print("Budget successfully added.")
 
 
 def current_budget():

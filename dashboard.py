@@ -1,6 +1,7 @@
 from datetime import datetime
 from budget import current_budget
 from expense_history import get_expenses
+from decimal import Decimal
 
 
 def get_dashboard():
@@ -8,23 +9,25 @@ def get_dashboard():
     print("       DASHBOARD")
     print("=======================")
 
-    budget = current_budget()
+    budget_dict = current_budget()
     # Checks if budget returns a value
-    if budget is None:
+    if budget_dict is None:
         print("No budget set for this month.")
         input()
         return
 
-    date, budget = current_budget()
+    # Unpack budget_dict
+    date, budget = budget_dict.values()
     date = format_date(date)
+
     print(f"{date.upper()}")
-    print(f"Budget: ${float(budget):,.2f}")
+    print(f"Budget: ${Decimal(budget):,.2f}")
 
     current_expenses = get_current_expenses()
     if current_expenses == 0:
         print(f"Total Expenses: $0.00")
     else:
-        print(f"Total Expenses: {float(current_expenses):,.2f}")
+        print(f"Total Expenses: ${Decimal(current_expenses):,.2f}")
         
     remaining_budget = get_remaining_budget(float(budget), float(current_expenses))
     print(f"Remaining Budget: ${remaining_budget:,.2f}")
