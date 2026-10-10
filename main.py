@@ -4,12 +4,13 @@ from add_expense import add_expense
 from expense_history import show_expenses
 from budget import show_budget
 from dashboard import get_dashboard
+from classes import Expense
 
 
 # Dictionary for menu options and their functions
 menu_options = {
     1 : ["[1] Dashboard", get_dashboard],
-    2 : ["[2] Add Expense", add_expense],
+    2 : ["[2] Add Expense", Expense.add],
     3 : ["[3] Expense History", show_expenses],
     4 : ["[4] Expense Categories", show_expense_categories],
     5 : ["[5] Budget", show_budget],

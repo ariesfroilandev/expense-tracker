@@ -38,21 +38,21 @@ def add_expense(file_name, expense):
             })
 
 
-def add_budget(file_name, date, budget):
+def add_budget(file_name, date, amount):
 # Validate if csv file exist
     try:
         with open(file_name, "x", newline="") as file:
-            writer = csv.DictWriter(file, fieldnames=["date", "budget"])
+            writer = csv.DictWriter(file, fieldnames=["date", "amount"])
             writer.writeheader()
     except FileExistsError:
         pass
 
     
     with open(file_name, "a", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["date", "budget"])
+        writer = csv.DictWriter(file, fieldnames=["date", "amount"])
         writer.writerow({
             "date": date,
-            "budget": budget,
+            "amount": amount,
             })
         
     return

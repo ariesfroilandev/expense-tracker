@@ -5,9 +5,9 @@ from expense_categories import get_category_list, show_expense_categories
 import storage
 
 class FinancialRecord():
-    def __init__(self, date, budget):
+    def __init__(self, date, amount):
         self.date = date
-        self.budget = budget
+        self.amount = amount
 
     @property
     def date(self):
@@ -18,16 +18,16 @@ class FinancialRecord():
         if not validate_format(date):  
             raise ValueError("Invalid input. Date format (MM/YYYY)") from None
 
-        self._date
+        self._date = date
 
     @property
-    def budget(self):
-        return self._budget
+    def amount(self):
+        return self._amount
 
-    @budget.setter
-    def budget(self, budget):
+    @amount.setter
+    def amount(self, amount):
         try:
-            value = Decimal(budget)
+            value = Decimal(amount)
             if not value.is_finite() or value < 1:
                 raise ValueError("Amount must not be infinite and must be greater than zero.")
             
@@ -66,13 +66,13 @@ class Expense(FinancialRecord):
         print("      ADD EXPENSE")
         print("=======================")
 
-        show_expense_categories(True)
-        category_list = get_category_list()
         if not (record := get_financial_record()):
             return
 
         amount, date = record
 
+        show_expense_categories(True)
+        category_list = get_category_list()
         # Input validation for category
         while True:
             category = input("Category: ").strip().capitalize()
@@ -89,9 +89,10 @@ class Expense(FinancialRecord):
         if x_selected(note):
             return
         
-        expense = Expense(category, amount, date, note)
+        expense = cls(category, amount, date, note)
         storage.add_expense("expenses.csv", expense)
         print("=======================")
         print("Expense added")
         print("=======================")
         input()
+   
