@@ -51,5 +51,5 @@ def main_menu():
         print("Invalid option. Try again.")
 
 
-if __name__ == __main__:
+if __name__ == "__main__":
     main()
