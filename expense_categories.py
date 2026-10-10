@@ -1,4 +1,5 @@
 import storage
+from services import yes_no_loop
 
 category_options = {
     1 : "[1] to add a new category",
@@ -98,13 +99,12 @@ def delete_category():
             break
 
         print(f"{category} is not on the list")
-        while True:
-            exit = input("Would you like to continue removing a category? [y/n]: ").lower()
-            if exit == "y":
-                break
-            elif exit == "n":
-                return
-            print("Invalid input.")
+        exit = yes_no_loop("Would you like to continue removing a category? [y/n]: ")
+        if exit == "y":
+            continue
+        elif exit == "n":
+            return
+        
 
     storage.delete_line("expense_categories.txt", category)
     print(f"{category} removed from list.")

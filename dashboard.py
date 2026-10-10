@@ -1,7 +1,7 @@
 from datetime import datetime
 from budget import current_budget
 from decimal import Decimal
-from services import get_total_expenses, get_remaining_budget
+from services import get_total_expenses, get_remaining_budget, format_date
 
 
 def get_dashboard():
@@ -34,9 +34,3 @@ def get_dashboard():
     print(f"Remaining Budget: ${remaining_budget:,.2f}")
 
     input()
-
-
-# Format date from (eg. 10/2026 to October 2026)
-def format_date(old):
-    new = datetime.strptime(old, "%m/%Y")
-    return new.strftime("%B %Y")
