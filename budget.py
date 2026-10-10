@@ -1,5 +1,6 @@
-import csv
 from datetime import datetime
+from decimal import Decimal, InvalidOperation
+from storage import read_csvfile, add_budget
 
 
 def show_budget():
@@ -25,36 +26,26 @@ def show_budget():
 
     for row in budget:
         print(f"Date: {row['date']}")
-        print(f"Budget: ${float(row['budget']):,.2f}")
+        print(f"Budget: ${Decimal(row['budget']):,.2f}")
 
     input()
     
 
 # Get budget records from from csv file
 def get_budget():
-    return read_file("budget.csv")
-
-
-def read_file(csv_file):
-    try:
-        with open(csv_file, newline="") as file:
-            # Returns row of data other than the fieldnames
-            return list(csv.DictReader(file))
-    except FileNotFoundError:
-        # Return empty list if file does not exist
-        return []
+    return read_csvfile("budget.csv")
 
 
 def input_budget():
     # Input Validation for budget
     while True:
         try:
-            budget = float(input("Budget Amount: "))
+            budget = Decimal(input("Budget Amount: "))
             if budget < 0:
                 print("Please enter valid amount.")
             else:
                 break
-        except ValueError:
+        except InvalidOperation:
             print("Invalid input. Try again.")
 
     # Input validation for date
@@ -66,21 +57,9 @@ def input_budget():
         except:
             print("Invalid date. Try again.")
 
-    # Validate if csv file exist
-    try:
-        with open("budget.csv", "x", newline="") as file:
-            writer = csv.DictWriter(file, fieldnames=["date", "budget"])
-            writer.writeheader()
-    except FileExistsError:
-        pass
+    add_budget("budget.csv", date, budget)
 
-    
-    with open("budget.csv", "a", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["date", "budget"])
-        writer.writerow({
-            "date": date,
-            "budget": round(budget, 2)
-            })
+    print("Budget successfully added.")
 
 
 def current_budget():

@@ -2,6 +2,7 @@ import csv
 from expense_categories import show_expense_categories, get_category_list
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
+import storage
 
 class Expense():
     def __init__(self, category, amount, date, note):
@@ -34,7 +35,7 @@ class Expense():
                 raise ValueError("Amount must be greater than zero.")
             
         except InvalidOperation: 
-            raise ValueError("Input must be a float/integer.") from None
+            raise ValueError("Input must be a number.") from None
 
         self._amount = value
 
@@ -48,6 +49,11 @@ class Expense():
             raise ValueError("Invalid input. Date format (MM/YYYY)") from None
 
         self._date = date
+
+    @classmethod
+    def get(cls):
+        ...
+
     
 
 def add_expense():
@@ -91,16 +97,7 @@ def add_expense():
     note = input("Note: ")
     
     expense = Expense(category, amount, date, note)
-    
-    with open("expenses.csv", "a", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["category", "amount", "date", "note"])
-        writer.writerow({
-            "category": expense.category, 
-            "amount": expense.amount,
-            "date": expense.date,
-            "note": expense.note,
-            })
-
+    storage.add_expense("expenses.csv", expense)
     print("Expense added")
 
 
