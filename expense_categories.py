@@ -2,7 +2,8 @@ import storage
 
 category_options = {
     1 : "[1] to add a new category",
-    2 : "[2] to go back to main menu",
+    2 : "[2] to delete a category",
+    3 : "[3] to go back to main menu",
 }
 
 
@@ -47,12 +48,17 @@ def show_expense_categories(read_only=False):
             match selected_option:
                 case 1:
                     add_category()
+                case 2:
+                    delete_category()
                 
 
 def add_category():
+    print("=======================")
+    print("    ADD NEW CATEGORY")
+    print("=======================")
     while True:
         # Validate if input is just whitespace
-        new_category = input("Type new category: ").strip()
+        new_category = input("Category name: ").strip()
 
         if new_category:
             category_list = get_category_list()
@@ -72,8 +78,35 @@ def add_category():
             
     storage.add_category("expense_categories.txt", new_category)
     print("Category added.")
+    print("=======================")
 
 
 # Get category list and remove whitespaces
 def get_category_list():
     return storage.read_txtfile("expense_categories.txt")
+
+
+def delete_category():
+    print("=======================")
+    print("    DELETE CATEGORY")
+    print("=======================")
+
+    while True:
+        category = input("Category name: ").strip().capitalize()
+        list = get_category_list()
+        if category in list:       
+            break
+
+        print(f"{category} is not on the list")
+        while True:
+            exit = input("Would you like to continue removing a category? [y/n]: ").lower()
+            if exit == "y":
+                break
+            elif exit == "n":
+                return
+            print("Invalid input.")
+
+    storage.delete_line("expense_categories.txt", category)
+    print(f"{category} removed from list.")
+    print("=======================")
+    return

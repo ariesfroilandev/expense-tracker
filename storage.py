@@ -68,3 +68,18 @@ def add_category(file_name, category):
         # Append new category to txt file
         with open(file_name, "a") as file:
             file.write(f"{category.capitalize()}\n")
+
+
+def delete_line(file_name, category):
+    with open(file_name, "r") as file:
+        lines = file.readlines()
+
+    # Makes a filtered list excluding the category you want to delete
+    lines = [
+        line for line in lines
+        if line.strip() != category
+        ]
+  
+    # Overwrites existing file with the filtered list
+    with open(file_name, "w") as file:
+        file.writelines(lines)
