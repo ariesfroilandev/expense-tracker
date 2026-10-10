@@ -58,8 +58,10 @@ def input_budget():
             print("Invalid date. Try again.")
 
     add_budget("budget.csv", date, budget)
-
+    print("=======================")
     print("Budget successfully added.")
+    print("=======================")
+    input()
 
 
 def current_budget():
