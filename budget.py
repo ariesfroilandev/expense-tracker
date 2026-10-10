@@ -26,10 +26,11 @@ def show_budget():
         print(f"Budget: ${Decimal(row['budget']):,.2f}")
         print("=======================")
 
-    input()
+    add = yes_no_loop("Would you like to add a new budget? [y/n]: ")
+    if add == "n":
+        return
 
-    #while True:
-    #    add = input("Would you like to add a new budget? [y/n]: ").lower()
+    input_budget()
 
 
 # Get budget records from from csv file
