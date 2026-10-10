@@ -34,7 +34,7 @@ class Expense():
                 raise ValueError("Amount must be greater than zero.")
             
         except InvalidOperation: 
-            raise ValueError("Input must be a float/integer.") from None
+            raise ValueError("Input must be a number.") from None
 
         self._amount = value
 

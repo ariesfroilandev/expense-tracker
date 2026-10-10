@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from decimal import Decimal, InvalidOperation
 
 
 def show_budget():
@@ -25,7 +26,7 @@ def show_budget():
 
     for row in budget:
         print(f"Date: {row['date']}")
-        print(f"Budget: ${float(row['budget']):,.2f}")
+        print(f"Budget: ${Decimal(row['budget']):,.2f}")
 
     input()
     
@@ -49,12 +50,12 @@ def input_budget():
     # Input Validation for budget
     while True:
         try:
-            budget = float(input("Budget Amount: "))
+            budget = Decimal(input("Budget Amount: "))
             if budget < 0:
                 print("Please enter valid amount.")
             else:
                 break
-        except ValueError:
+        except InvalidOperation:
             print("Invalid input. Try again.")
 
     # Input validation for date
@@ -79,7 +80,7 @@ def input_budget():
         writer = csv.DictWriter(file, fieldnames=["date", "budget"])
         writer.writerow({
             "date": date,
-            "budget": round(budget, 2)
+            "budget": budget,
             })
 
 
