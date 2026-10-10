@@ -1,5 +1,5 @@
-from storage import read_csvfile
 from decimal import Decimal
+from services import get_expenses
 
 
 def show_expenses():
@@ -8,7 +8,7 @@ def show_expenses():
     print("=======================")
     
     rows = get_expenses()
-    if rows == "empty":
+    if not rows:
         print("No expenses recorded.")
 
     else:
@@ -20,7 +20,3 @@ def show_expenses():
             print("=======================")
 
     input()
-
-
-def get_expenses():
-    return read_csvfile("expenses.csv")
