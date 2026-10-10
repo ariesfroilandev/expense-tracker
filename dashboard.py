@@ -1,7 +1,7 @@
 from datetime import datetime
 from budget import current_budget
-from expense_history import get_expenses
 from decimal import Decimal
+from services import get_total_expenses, get_remaining_budget
 
 
 def get_dashboard():
@@ -23,13 +23,14 @@ def get_dashboard():
     print(f"{date.upper()}")
     print(f"Budget: ${Decimal(budget):,.2f}")
 
-    current_expenses = get_current_expenses()
+    current_expenses = get_total_expenses()
     if current_expenses == 0:
         print(f"Total Expenses: $0.00")
     else:
         print(f"Total Expenses: ${Decimal(current_expenses):,.2f}")
-        
-    remaining_budget = get_remaining_budget(float(budget), float(current_expenses))
+
+    # Returns the remaining budget value as Decimal
+    remaining_budget = get_remaining_budget(budget, current_expenses)
     print(f"Remaining Budget: ${remaining_budget:,.2f}")
 
     input()
@@ -39,19 +40,3 @@ def get_dashboard():
 def format_date(old):
     new = datetime.strptime(old, "%m/%Y")
     return new.strftime("%B %Y")
-
-
-def get_current_expenses():
-    expenses = get_expenses()
-    if expenses == "empty":
-        return 0
-
-    total_expenses = 0
-    for row in expenses:
-        total_expenses += float(row["amount"])
-
-    return total_expenses
-
-
-def get_remaining_budget(budget, expenses):
-    return budget - expenses
