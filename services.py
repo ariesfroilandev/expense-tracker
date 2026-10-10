@@ -19,3 +19,10 @@ def get_expenses():
 
 def get_remaining_budget(budget, expenses):
     return Decimal(budget) - Decimal(expenses)
+
+
+def x_selected(option):
+    if option.lower() == "x":
+        return True
+
+    return False
