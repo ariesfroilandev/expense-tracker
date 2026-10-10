@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from storage import read_csvfile, add_budget
-from utils import format_date, yes_no_loop
+from utils import format_date, yes_no_loop, get_financial_record
 
 
 def show_budget():
@@ -39,25 +39,10 @@ def get_budget():
 
 
 def input_budget():
-    # Input Validation for budget
-    while True:
-        try:
-            budget = Decimal(input("Budget Amount: "))
-            if budget.is_finite() and budget > 0:
-                break
-        except InvalidOperation:
-            print("Invalid input. Try again.")
-
-        print("Please enter valid amount.")
-
-    # Input validation for date
-    while True:    
-        date = input("Confirm date this budget is for (MM/YYYY): ")
-        try:
-            datetime.strptime(date, "%m/%Y")
-            break
-        except ValueError:
-            print("Invalid date. Try again.")
+    if not (record := get_financial_record()):
+        return
+    
+    budget, date = record
     
     add_budget("budget.csv", date, budget)
     print("=======================")
