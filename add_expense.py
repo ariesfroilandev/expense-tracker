@@ -112,7 +112,10 @@ def add_expense():
     
     expense = Expense(category, amount, date, note)
     storage.add_expense("expenses.csv", expense)
+    print("=======================")
     print("Expense added")
+    print("=======================")
+    input()
 
 
 # input/data validation for date
