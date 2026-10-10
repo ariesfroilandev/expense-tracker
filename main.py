@@ -45,10 +45,11 @@ def main_menu():
             print("Please enter a number.")
             continue
 
-        if 0 < option <= len(menu_options):
+        if option in menu_options:
             return option
 
         print("Invalid option. Try again.")
 
 
-main()
+if __name__ == __main__:
+    main()

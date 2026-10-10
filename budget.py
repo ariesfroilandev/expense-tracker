@@ -54,7 +54,7 @@ def input_budget():
         try:
             datetime.strptime(date, "%m/%Y")
             break
-        except:
+        except ValueError:
             print("Invalid date. Try again.")
 
     add_budget("budget.csv", date, budget)

@@ -31,8 +31,8 @@ class Expense():
     def amount(self, amount):
         try:
             value = Decimal(amount)
-            if value < 1:
-                raise ValueError("Amount must be greater than zero.")
+            if not amount.is_infinite() or amount < 1:
+                raise ValueError("Amount must not be infinite and must be greater than zero.")
             
         except InvalidOperation: 
             raise ValueError("Input must be a number.") from None
@@ -65,7 +65,7 @@ def add_expense():
     category_list = get_category_list()
     # Input validation for category
     while True:
-        category = input("Category: ").capitalize()
+        category = input("Category: ").strip().capitalize()
         if category in category_list:
             break
 
@@ -75,8 +75,8 @@ def add_expense():
     while True:
         try: 
             amount = Decimal(input("Amount: "))
-            if amount < 1:
-                print("Amount must be greater than zero.")
+            if not amount.is_infinite() or amount < 1:
+                print("Please enter a valid amount.")
                 continue
 
             break
