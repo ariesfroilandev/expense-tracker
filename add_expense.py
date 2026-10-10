@@ -1,6 +1,7 @@
 import csv
 from expense_categories import show_expense_categories, get_category_list
 from datetime import datetime
+from decimal import Decimal, InvalidOperation
 
 class Expense():
     def __init__(self, category, amount, date, note):
@@ -28,14 +29,14 @@ class Expense():
     @amount.setter
     def amount(self, amount):
         try:
-            value = float(amount)
-        except ValueError: 
+            value = Decimal(amount)
+            if value < 1:
+                raise ValueError("Amount must be greater than zero.")
+            
+        except InvalidOperation: 
             raise ValueError("Input must be a float/integer.") from None
-        
-        if value < 1:
-            raise ValueError("Amount must be greater than zero.")
 
-        self._amount = round(value, 2)
+        self._amount = value
 
     @property
     def date(self):
@@ -67,13 +68,16 @@ def add_expense():
     # Input validation for amount
     while True:
         try: 
-            amount = float(input("Amount: "))
+            amount = Decimal(input("Amount: "))
+            if amount < 1:
+                print("Amount must be greater than zero.")
+                continue
+
             break
-        except ValueError:
+
+        except InvalidOperation:
             print("Invalid input.")
 
-        if amount < 1:
-            print("Amount must be greater than zero.")
 
     # Input validation for date
     while True:
