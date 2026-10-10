@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from storage import read_csvfile, add_budget
+from services import format_date, yes_no_loop
 
 
 def show_budget():
@@ -11,13 +12,9 @@ def show_budget():
     # Asks user to enter budget if no data was entered before
     if not budget:
         print("No monthly budget previously saved.")
-        # loop for input validation
-        while True:
-            confirm = input("Would you like to enter this month's budget?[y/n]: ").lower()
-            if confirm == "y" or confirm == "n":
-                break
 
-            print("Invalid input. Try Again.")
+        # Loop for input validation
+        confirm = yes_no_loop("Would you like to enter this month's budget?[y/n]: ")
 
         if confirm == "y":
             input_budget()
@@ -25,11 +22,16 @@ def show_budget():
         return
 
     for row in budget:
-        print(f"Date: {row['date']}")
+        print(f"Date: {format_date(row['date'])}")
         print(f"Budget: ${Decimal(row['budget']):,.2f}")
+        print("=======================")
 
-    input()
-    
+    add = yes_no_loop("Would you like to add a new budget? [y/n]: ")
+    if add == "n":
+        return
+
+    input_budget()
+
 
 # Get budget records from from csv file
 def get_budget():
