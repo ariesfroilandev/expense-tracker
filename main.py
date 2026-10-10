@@ -45,7 +45,7 @@ def main_menu():
             print("Please enter a number.")
             continue
 
-        if option <= len(menu_options):
+        if 0 < option <= len(menu_options):
             return option
 
         print("Invalid option. Try again.")

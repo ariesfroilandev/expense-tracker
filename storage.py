@@ -20,6 +20,14 @@ def read_txtfile(file_name):
 
 
 def add_expense(file_name, expense):
+    # Validate if csv file exist
+    try:
+        with open(file_name, "x", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=["category", "amount", "date", "note"])
+            writer.writeheader()
+    except FileExistsError:
+        pass
+    
     with open(file_name, "a", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["category", "amount", "date", "note"])
         writer.writerow({
