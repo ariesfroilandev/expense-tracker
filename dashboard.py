@@ -1,7 +1,8 @@
 from datetime import datetime
 from budget import current_budget
 from decimal import Decimal
-from services import get_total_expenses, get_remaining_budget, format_date
+from services import get_total_expenses, get_remaining_budget
+from utils import format_date
 
 
 def get_dashboard():

@@ -1,5 +1,5 @@
 import storage
-from services import yes_no_loop
+from utils import yes_no_loop
 
 category_options = {
     1 : "[1] to add a new category",

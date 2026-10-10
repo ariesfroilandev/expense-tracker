@@ -3,7 +3,7 @@ from expense_categories import show_expense_categories, get_category_list
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 import storage
-from services import x_selected
+from utils import x_selected, validate_format
 
 class Expense():
     def __init__(self, category, amount, date, note):
@@ -117,11 +117,3 @@ def add_expense():
     print("=======================")
     input()
 
-
-# input/data validation for date
-def validate_format(date):
-    try:
-        datetime.strptime(date, "%m/%Y")
-        return True
-    except ValueError:
-        return False
