@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from storage import read_csvfile, add_budget
-from utils import format_date, yes_no_loop, get_financial_record
+from utils import format_date, yes_no_loop, get_amount_date
 
 
 def show_budget():
@@ -39,7 +39,7 @@ def get_budget():
 
 
 def input_budget():
-    if not (record := get_financial_record()):
+    if not (record := get_amount_date()):
         return
     
     budget, date = record

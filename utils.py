@@ -32,7 +32,7 @@ def validate_format(date):
         return False
 
 # Asks user for amount and date
-def get_financial_record():
+def get_amount_date():
     print("Input [x] anytime to cancel and go back to main menu.")
     # Input validation for amount
     while True:
