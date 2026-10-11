@@ -1,5 +1,5 @@
 from datetime import datetime
-from utils import validate_format, x_selected, get_amount_date
+from utils import validate_format, x_selected
 from decimal import Decimal, InvalidOperation
 from expense_categories import get_category_list, show_expense_categories
 import storage
@@ -31,7 +31,7 @@ class FinancialRecord():
             if not value.is_finite() or value < 1:
                 raise ValueError("Amount must not be infinite and must be greater than zero.")
             
-        except InvalidOperation: 
+        except InvalidOperation, ValueError: 
             raise ValueError("Input must be a number.") from None
 
         self._amount = value
@@ -39,7 +39,38 @@ class FinancialRecord():
 
     @classmethod
     def get(cls):
-        ...
+        print("Input [x] anytime to cancel and go back to main menu.")
+        # Asks user for amount and date
+        # Input validation for amount
+        while True:
+            amount_input = input("Amount: ")
+            if x_selected(amount_input):
+                return
+            
+            try:
+                amount = Decimal(amount_input)
+                if amount.is_finite() and amount > 0:
+                    break
+                
+            except InvalidOperation, ValueError:
+                print("Invalid input.")
+                continue
+
+            print("Please enter a valid amount.")
+
+        # Input validation for date
+        while True:
+            date = input("Date(MM/YYYY): ")
+
+            if x_selected(date):
+                return
+
+            if validate_format(date):
+                break
+
+            print("Invalid input. Date format should be (MM/YYYY)")
+
+        return date, amount
 
 
 class Expense(FinancialRecord):
@@ -66,10 +97,10 @@ class Expense(FinancialRecord):
         print("      ADD EXPENSE")
         print("=======================")
 
-        if not (record := get_amount_date()):
+        if not (record := super().get()):
             return
 
-        amount, date = record
+        date, amount = record
 
         show_expense_categories(True)
         category_list = get_category_list()

@@ -1,7 +1,8 @@
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from storage import read_csvfile, add_budget
-from utils import format_date, yes_no_loop, get_amount_date
+from utils import format_date, yes_no_loop
+from classes import FinancialRecord
 
 
 def show_budget():
@@ -23,7 +24,7 @@ def show_budget():
 
     for row in budget:
         print(f"Date: {format_date(row['date'])}")
-        print(f"Budget: ${Decimal(row['budget']):,.2f}")
+        print(f"Budget: ${Decimal(row['amount']):,.2f}")
         print("=======================")
 
     add = yes_no_loop("Would you like to add a new budget? [y/n]: ")
@@ -39,12 +40,12 @@ def get_budget():
 
 
 def input_budget():
-    if not (record := get_amount_date()):
+    if not (record := FinancialRecord.get()):
         return
     
-    budget, date = record
+    date, amount = record
     
-    add_budget("budget.csv", date, budget)
+    add_budget("budget.csv", date, amount)
     print("=======================")
     print("Budget successfully added.")
     print("=======================")
