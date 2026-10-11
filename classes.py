@@ -27,7 +27,7 @@ class FinancialRecord():
     def amount(self, amount):
         try:
             value = Decimal(amount)
-            if not value.is_finite() or value < 1:
+            if not value.is_finite() or value <= 0:
                 raise ValueError("Amount must not be infinite and must be greater than zero.")
             
         except InvalidOperation, ValueError: 
