@@ -1,6 +1,6 @@
 import sys
 from expense_categories import show_expense_categories
-from expense_history import show_expenses
+from expenses import show_expenses
 from budget import show_budget
 from dashboard import get_dashboard
 from classes import Expense

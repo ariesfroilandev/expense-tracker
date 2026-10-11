@@ -1,10 +1,9 @@
-from storage import read_csvfile
 from decimal import Decimal
-from classes import Expense
+from expenses import get_current_expenses
 
 
 def get_total_expenses():
-    expenses = get_expenses()
+    expenses = get_current_expenses()
     if not expenses:
         return 0
 
@@ -13,10 +12,6 @@ def get_total_expenses():
         total_expenses += Decimal(row["amount"])
 
     return total_expenses
-
-
-def get_expenses():
-    return read_csvfile("expenses.csv")
 
 
 def get_remaining_budget(budget, expenses):
