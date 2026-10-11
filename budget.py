@@ -1,5 +1,5 @@
 from datetime import datetime
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 from storage import read_csvfile, add_budget
 from utils import format_date, yes_no_loop
 from classes import FinancialRecord

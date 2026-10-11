@@ -1,4 +1,3 @@
-from datetime import datetime
 from utils import validate_format, x_selected
 from decimal import Decimal, InvalidOperation
 from expense_categories import get_category_list, show_expense_categories
