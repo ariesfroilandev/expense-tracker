@@ -1,9 +1,9 @@
 from decimal import Decimal
-from expenses import get_current_expenses
+from expenses import get_expenses
 
 
-def get_total_expenses():
-    expenses = get_current_expenses()
+def get_total_expenses(date=None):
+    expenses = get_expenses(date)
     if not expenses:
         return 0
 

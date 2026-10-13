@@ -68,13 +68,15 @@ def input_budget(budget_list=[]):
     input()
 
 
-def current_budget():
+def get_budget(date=None):
     budget_list = get_budget_list()
-    today = datetime.today()
-    today = today.strftime("%m/%Y")
+
+    if not date:
+        date = datetime.today()
+        date = date.strftime("%m/%Y")
 
     for budget in budget_list:
-        if budget["date"] == today:
+        if budget["date"] == date:
             return budget
 
 

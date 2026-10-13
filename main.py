@@ -2,13 +2,13 @@ import sys
 from expense_categories import show_expense_categories
 from expenses import show_expenses
 from budget import show_budget
-from dashboard import get_dashboard
+from dashboard import dashboard
 from classes import Expense
 
 
 # Dictionary for menu options and their functions
 menu_options = {
-    1 : ["[1] Dashboard", get_dashboard],
+    1 : ["[1] Dashboard", dashboard],
     2 : ["[2] Add Expense", Expense.add],
     3 : ["[3] Expense History", show_expenses],
     4 : ["[4] Expense Categories", show_expense_categories],
