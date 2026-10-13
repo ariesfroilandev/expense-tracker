@@ -1,10 +1,10 @@
 import storage
-from utils import yes_no_loop
+from utils import yes_no_loop, get_options, select_and_validate, x_selected
 
 category_options = {
-    1 : "[1] to add a new category",
-    2 : "[2] to delete a category",
-    3 : "[3] to go back to main menu",
+    1 : "[1] Add a new category",
+    2 : "[2] Delete a category",
+    3 : "[3] Go back to main menu",
 }
 
 
@@ -24,33 +24,20 @@ def show_expense_categories(read_only=False):
 
         print("=======================")
 
-    # Condition for when function is called only to show categories 
+    # Condition for when function is called to show categories and options for next action
     if not read_only:
-        while True:
-            # Display menu_options
-            for option in category_options.values():
-                print(option)
+        print(get_options(category_options), end="")
+        selected_option = select_and_validate(category_options)
+        # Checks which action to do next based on selected option
+        if selected_option == len(category_options):
+            return
 
-            try:
-                selected_option = int(input("Select an option: "))
+        match selected_option:
+            case 1:
+                add_category()
+            case 2:
+                delete_category()
 
-            except ValueError:
-                print("Invalid option. Try Again")
-                continue
-
-            if selected_option > len(category_options):
-                print("Invalid option. Try Again")
-                continue
-
-            # Checks which action to do next based on selected option
-            if selected_option == len(category_options):
-                return
-
-            match selected_option:
-                case 1:
-                    add_category()
-                case 2:
-                    delete_category()
                 
 
 def add_category():
@@ -95,14 +82,15 @@ def delete_category():
     while True:
         category = input("Category name: ").strip().capitalize()
         list = get_category_list()
+        
         if category in list:       
             break
 
         print(f"{category} is not on the list")
-        exit = yes_no_loop("Would you like to continue removing a category? [y/n]: ")
-        if exit == "y":
+        continue_action = yes_no_loop("Would you like to continue removing a category? [y/n]: ")
+        if continue_action == "y":
             continue
-        elif exit == "n":
+        elif continue_action == "n":
             return
         
 

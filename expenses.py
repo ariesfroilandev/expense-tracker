@@ -1,6 +1,8 @@
 from decimal import Decimal
 from datetime import datetime
 from storage import read_csvfile
+from utils import get_options, select_and_validate, validate_format, yes_no_loop
+from expense_categories import get_category_list
 
 
 options = {
@@ -11,32 +13,38 @@ options = {
 
 
 def show_expenses():
-    print("=======================")
-    print("    EXPENSE HISTORY")
-    print("=======================")
-    
-    rows = get_expenses()
-    if not rows:
-        print("No expenses recorded.")
-        input()
-        return
-
-    for row in rows:
-        print(f"Amount: ${Decimal(row['amount']):,.2f}")
-        print(f"Category: {row['category']}")
-        print(f"Date: {row['date']}")
-        print(f"Note: {row['note']}")
+    expense_list = get_expenses()
+    while True:
         print("=======================")
+        print("    EXPENSE HISTORY")
+        print("=======================")
+        
+        if not expense_list:
+            print("No expenses recorded.")
+            input()
+            return
 
-    input(get_options())
+        for row in expense_list:
+            print(f"Amount: ${Decimal(row['amount']):,.2f}")
+            print(f"Category: {row['category']}")
+            print(f"Date: {row['date']}")
+            print(f"Note: {row['note']}")
+            print("=======================")
+        
+        print(get_options(options), end="")
+        selected_option = select_and_validate(options)
+        if selected_option == len(options):
+            return
+
+        match selected_option:
+            case 1:
+                expense_list = filter_expenses("category")
+            case 2:
+                expense_list = filter_expenses("date")
 
 
-def get_options():
-    option_description = ""
-    for option in options.values():
-        option_description = option_description + option + "\n"
 
-    return option_description
+        
 
 
 def get_current_expenses():
@@ -58,3 +66,30 @@ def get_current_expenses():
 
 def get_expenses():
     return read_csvfile("expenses.csv")
+
+
+def filter_expenses(filter):
+    if filter == "category":
+        while True:
+            input_filter = input(f"Enter {filter}: ").strip().capitalize()
+            category_list = get_category_list()
+            if input_filter in category_list:
+                break
+            print(f"{input_filter} is not on the category list.")
+            exit = yes_no_loop("Would you like go back to the previous menu? [y/n]: ")
+            if exit == "y":
+                return
+
+    elif filter == "date":
+        while True:
+            input_filter = input(f"Enter {filter}(MM/YYYY): ").strip()
+            if validate_format(input_filter):
+                break
+            print("Invalid input.")
+
+    rows = get_expenses()
+    filtered_list = [
+        row for row in rows
+        if row[filter] == input_filter
+        ]
+    return filtered_list
