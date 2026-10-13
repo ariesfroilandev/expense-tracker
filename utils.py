@@ -29,3 +29,27 @@ def validate_format(date):
         return True
     except ValueError:
         return False
+
+
+def get_options(options):
+    option_description = ""
+    # Display menu_options
+    for option in options.values():
+        option_description = option_description + option + "\n"
+
+    return option_description
+
+
+def select_and_validate(options):
+    while True:
+        try:
+            selected_option = int(input("Select an option: "))
+
+        except ValueError:
+            print("Invalid option. Try Again")
+            continue
+
+        if 0 < selected_option <= len(options):
+            return selected_option
+
+        print("Invalid option. Try Again")
