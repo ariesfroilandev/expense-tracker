@@ -3,6 +3,13 @@ from datetime import datetime
 from storage import read_csvfile
 
 
+options = {
+    1 : "[1] Filter by category",
+    2 : "[2] Filter by date",
+    3 : "[3] Go back to main menu",
+}
+
+
 def show_expenses():
     print("=======================")
     print("    EXPENSE HISTORY")
@@ -21,7 +28,15 @@ def show_expenses():
         print(f"Note: {row['note']}")
         print("=======================")
 
-    input()
+    input(get_options())
+
+
+def get_options():
+    option_description = ""
+    for option in options.values():
+        option_description = option_description + option + "\n"
+
+    return option_description
 
 
 def get_current_expenses():
