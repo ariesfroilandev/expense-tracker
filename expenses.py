@@ -43,10 +43,6 @@ def show_expenses():
                 expense_list = filter_expenses("date")
 
 
-
-        
-
-
 def get_current_expenses():
     all_expenses = get_expenses()
     if not all_expenses:

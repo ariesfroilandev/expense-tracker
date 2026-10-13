@@ -47,6 +47,14 @@ def add_budget(file_name, date, amount):
     except FileExistsError:
         pass
 
+    with open(file_name, "r", newline="") as file:
+        reader = csv.reader(file)
+        header = next(reader, None)
+
+    if header != ["date", "amount"]:
+        with open(file_name, "a", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=["date", "amount"])
+            writer.writeheader()
     
     with open(file_name, "a", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=["date", "amount"])
@@ -54,8 +62,6 @@ def add_budget(file_name, date, amount):
             "date": date,
             "amount": amount,
             })
-        
-    return
 
 
 def add_category(file_name, category):
@@ -83,3 +89,12 @@ def delete_line(file_name, category):
     # Overwrites existing file with the filtered list
     with open(file_name, "w") as file:
         file.writelines(lines)
+
+
+def update_budget_file(budget_list):
+    # Validate if csv file exist
+    with open("budget.csv", "w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=["date", "amount"])
+        writer.writeheader()
+        for row in budget_list:
+            writer.writerow(row)
