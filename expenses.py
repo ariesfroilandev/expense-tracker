@@ -13,7 +13,7 @@ options = {
 
 
 def show_expenses():
-    expense_list = get_expenses()
+    expense_list = get_all_expenses()
     while True:
         print("=======================")
         print("    EXPENSE HISTORY")
@@ -43,24 +43,27 @@ def show_expenses():
                 expense_list = filter_expenses("date")
 
 
-def get_current_expenses():
-    all_expenses = get_expenses()
+def get_expenses(date=None):
+    all_expenses = get_all_expenses()
+    expenses = []
+
     if not all_expenses:
         print("No expenses recorded.")
+        return expenses
 
-    today = datetime.today()
-    today = today.strftime("%m/%Y")
+    if not date:
+        date = datetime.today()
+        date = date.strftime("%m/%Y")
 
-    expenses = []
     # Gets all expenses for the current month
     for row in all_expenses:
-        if row["date"] == today:
+        if row["date"] == date:
             expenses.append(row)
 
     return expenses
 
 
-def get_expenses():
+def get_all_expenses():
     return read_csvfile("expenses.csv")
 
 
