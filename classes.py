@@ -1,7 +1,8 @@
-from utils import validate_format, x_selected
+from utils import validate_format, x_selected, yes_no_loop, match_dates, get_budget_list, fix_date_format
 from decimal import Decimal, InvalidOperation
 from expense_categories import get_category_list, show_expense_categories
 import storage
+
 
 class FinancialRecord():
     def __init__(self, date, amount):
@@ -37,39 +38,61 @@ class FinancialRecord():
 
 
     @classmethod
-    def get(cls):
+    def get(cls, update=False):
+        # set Param update to True if updating an existing budget
+        # default Param False if adding a new budget
         print("Input [x] anytime to cancel and go back to main menu.")
-        # Asks user for amount and date
-        # Input validation for amount
-        while True:
-            amount_input = input("Amount: ")
-            if x_selected(amount_input):
-                return
-            
-            try:
-                amount = Decimal(amount_input)
-                if amount.is_finite() and amount > 0:
-                    break
-                
-            except InvalidOperation, ValueError:
-                print("Invalid input.")
-                continue
-
-            print("Please enter a valid amount.")
 
         # Input validation for date
         while True:
-            date = input("Date(MM/YYYY): ")
+            date = input("Enter date(MM/YYYY): ")
 
             if x_selected(date):
                 return
 
             if validate_format(date):
+                date = fix_date_format(date)
                 break
 
             print("Invalid input. Date format should be (MM/YYYY)")
 
-        return date, amount
+        budget_list = get_budget_list()
+        match = match_dates(budget_list, date)
+
+        if not match and update:
+            print(f"No existing budget recorded for {date}.")
+            exit = yes_no_loop(f"Would you like to add a budget for {date}? [y/n]: ")
+
+            if exit == "n":
+                return
+            # update set to False to indicate the process is now adding instead of updating
+            update = False
+
+        if match and not update:
+            print(f"Existing budget found for {date}.")
+            if yes_no_loop(f"Would you like to update the budget for {date}? [y/n]: ") == "n":
+                return
+
+            update = True
+
+        # Input validation for amount
+        while True:
+            amount_input = input("Enter amount: ")
+            if x_selected(amount_input):
+                return
+            
+            try:
+                amount = Decimal(amount_input)
+            except InvalidOperation, ValueError:
+                print("Invalid input.")
+                continue
+
+            if amount.is_finite() and amount > 0:
+                break
+
+            print("Please enter a valid amount.")
+
+        return date, amount, update
 
 
 class Expense(FinancialRecord):
@@ -99,7 +122,7 @@ class Expense(FinancialRecord):
         if not (record := super().get()):
             return
 
-        date, amount = record
+        date, amount, _ = record
 
         show_expense_categories(True)
         category_list = get_category_list()

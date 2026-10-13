@@ -1,4 +1,5 @@
 from datetime import datetime
+from storage import read_csvfile
 
 # Format date from (eg. 10/2026 to October 2026)
 def format_date(old):
@@ -31,6 +32,10 @@ def validate_format(date):
         return False
 
 
+def fix_date_format(date):
+    return datetime.strptime(date, "%m/%Y").strftime("%m/%Y")
+
+
 def get_options(options):
     option_description = ""
     # Display menu_options
@@ -53,3 +58,16 @@ def select_and_validate(options):
             return selected_option
 
         print("Invalid option. Try Again")
+
+
+def match_dates(budget_list, date):
+    for row in budget_list:
+        if row["date"] == date:
+            return True
+        
+    return False
+
+
+# Get budget records from from csv file
+def get_budget_list():
+    return read_csvfile("budget.csv")
