@@ -14,15 +14,7 @@ def show_expense_categories(read_only=False):
     print("=======================")
 
     # Display list of categories from txt file
-    category_list = get_category_list()
-    if not category_list:
-        print("No existing category.")
-
-    else:    
-        for category in category_list:
-            print(category)
-
-        print("=======================")
+    show_category_list()
 
     # Condition for when function is called to show categories and options for next action
     if not read_only:
@@ -98,3 +90,15 @@ def delete_category():
     print(f"{category} removed from list.")
     print("=======================")
     return
+
+
+def show_category_list():
+    category_list = get_category_list()
+    if not category_list:
+        print("No existing category.")
+
+    else:    
+        for category in category_list:
+            print(category)
+
+    print("=======================")

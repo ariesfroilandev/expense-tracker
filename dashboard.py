@@ -7,8 +7,7 @@ from datetime import datetime
 
 options = {
     1: "[1] Select month",
-    2: "[2] Show report breakdown",
-    3: "[3] Go back to main menu"
+    3: "[2] Go back to main menu"
 }
 
 
@@ -16,7 +15,7 @@ def dashboard():
     print("=======================")
     print("       DASHBOARD")
     print("=======================")
-    get_month("current")
+    get_monthly_report("current")
     while True:
         print(get_options(options), end="")
         selected_option = select_and_validate(options)
@@ -25,12 +24,10 @@ def dashboard():
 
         match selected_option:
             case 1:
-                get_month("specific")
-            case 2:
-                get_breakdown()
+                get_monthly_report("specific")
 
 
-def get_month(month):
+def get_monthly_report(month):
     if month == "specific":
         while True:
             date = input("Enter date(MM/YYYY): ")
@@ -70,8 +67,3 @@ def get_month(month):
     remaining_budget = get_remaining_budget(budget_amount, expenses)
     print(f"Remaining Budget: ${remaining_budget:,.2f}")
     print("=======================")
-
-
-def get_breakdown():
-    ...
-    
