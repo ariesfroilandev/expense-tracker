@@ -38,7 +38,7 @@ class FinancialRecord():
 
 
     @classmethod
-    def get(cls, update=False):
+    def get(cls, update=False, for_expense_class=False):
         # set Param update to True if updating an existing budget
         # default Param False if adding a new budget
         print("Input [x] anytime to cancel and go back to main menu.")
@@ -56,24 +56,25 @@ class FinancialRecord():
 
             print("Invalid input. Date format should be (MM/YYYY)")
 
-        budget_list = get_budget_list()
-        match = match_dates(budget_list, date)
+        if not for_expense_class:
+            budget_list = get_budget_list()
+            match = match_dates(budget_list, date)
 
-        if not match and update:
-            print(f"No existing budget recorded for {date}.")
-            exit = yes_no_loop(f"Would you like to add a budget for {date}? [y/n]: ")
+            if not match and update:
+                print(f"No existing budget recorded for {date}.")
+                exit = yes_no_loop(f"Would you like to add a budget for {date}? [y/n]: ")
 
-            if exit == "n":
-                return
-            # update set to False to indicate the process is now adding instead of updating
-            update = False
+                if exit == "n":
+                    return
+                # update set to False to indicate the process is now adding instead of updating
+                update = False
 
-        if match and not update:
-            print(f"Existing budget found for {date}.")
-            if yes_no_loop(f"Would you like to update the budget for {date}? [y/n]: ") == "n":
-                return
+            if match and not update:
+                print(f"Existing budget found for {date}.")
+                if yes_no_loop(f"Would you like to update the budget for {date}? [y/n]: ") == "n":
+                    return
 
-            update = True
+                update = True
 
         # Input validation for amount
         while True:
@@ -119,7 +120,7 @@ class Expense(FinancialRecord):
         print("      ADD EXPENSE")
         print("=======================")
 
-        if not (record := super().get()):
+        if not (record := super().get(for_expense_class=True)):
             return
 
         date, amount, _ = record
@@ -135,7 +136,7 @@ class Expense(FinancialRecord):
             if category in category_list:
                 break
 
-            print("Category not on the list. Please pick an existing category or add a new category to the list.")
+            print("Category not on the list. Please pick an existing category.")
 
         note = input("Note: ")
 
