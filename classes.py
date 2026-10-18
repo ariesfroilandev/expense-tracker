@@ -94,10 +94,6 @@ class Expense(FinancialRecord):
 
     @classmethod
     def add(cls):
-        print("=======================")
-        print("      ADD EXPENSE")
-        print("=======================")
-
         if not (record := FinancialRecord.get_input()):
             return
 

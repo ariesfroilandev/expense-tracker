@@ -44,7 +44,9 @@ def show_expenses():
                 expense_list = filter_expenses("date")
 
 
-def get_expenses(date=None):
+def get_expenses(filter_input):
+    is_date = validate_format(filter_input)
+
     all_expenses = get_all_expenses()
     expenses = []
 
@@ -52,15 +54,17 @@ def get_expenses(date=None):
         print("No expenses recorded.")
         return expenses
 
-    if not date:
-        date = datetime.today()
-        date = date.strftime("%m/%Y")
+    if is_date:
+        # Gets all expenses for the current month
+        for row in all_expenses:
+            if row["date"] == filter_input:
+                expenses.append(row)
 
-    # Gets all expenses for the current month
-    for row in all_expenses:
-        if row["date"] == date:
-            expenses.append(row)
-
+    else:
+        for row in all_expenses:
+            if row["category"] == filter_input:
+                expenses.append(row)
+                
     return expenses
 
 
@@ -92,7 +96,13 @@ def filter_expenses(filter):
 
 
 def expense_add():
+    print("=======================")
+    print("      ADD EXPENSE")
+    print("=======================")
     expense = Expense.add()
+    if not expense:
+        return
+    
     save_expense("expenses.csv", expense)
     print("=======================")
     print("Expense added")
