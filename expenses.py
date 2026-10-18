@@ -87,11 +87,7 @@ def filter_expenses(filter):
                 break
             print("Invalid input.")
 
-    rows = get_expenses()
-    filtered_list = [
-        row for row in rows
-        if row[filter] == input_filter
-        ]
+    filtered_list = get_expenses(input_filter)
     return filtered_list
 
 
