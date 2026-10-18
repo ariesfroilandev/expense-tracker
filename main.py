@@ -1,15 +1,15 @@
 import sys
 from expense_categories import show_expense_categories
-from expenses import show_expenses
+from expenses import show_expenses, expense_add
 from budget import show_budget
 from dashboard import dashboard
-from classes import Expense
+from utils import select_and_validate
 
 
 # Dictionary for menu options and their functions
 menu_options = {
     1 : ["[1] Dashboard", dashboard],
-    2 : ["[2] Add Expense", Expense.add],
+    2 : ["[2] Add Expense", expense_add],
     3 : ["[3] Expense History", show_expenses],
     4 : ["[4] Expense Categories", show_expense_categories],
     5 : ["[5] Budget", show_budget],
@@ -38,17 +38,7 @@ def main_menu():
         print(option[description])
 
     # Input validation for selecting menu option
-    while True:
-        try:
-            option = int(input("Select an option: "))
-        except ValueError:
-            print("Please enter a number.")
-            continue
-
-        if option in menu_options:
-            return option
-
-        print("Invalid option. Try again.")
+    return select_and_validate(menu_options)
 
 
 if __name__ == "__main__":
