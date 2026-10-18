@@ -167,6 +167,8 @@ def test_expense_amount_setter_rejects_invalid_amount(monkeypatch):
     with pytest.raises(ValueError):
         expense.amount = "abc"
 
+    assert expense.amount == Decimal("100")
+
 
 def test_expense_date_setter_rejects_invalid_date(monkeypatch):
     monkeypatch.setattr(

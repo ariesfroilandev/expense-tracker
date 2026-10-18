@@ -1,6 +1,5 @@
 import csv
 import storage
-import pytest
 from types import SimpleNamespace
 
 
@@ -68,7 +67,7 @@ def test_read_txtfile_returns_empty_list_when_file_missing(tmp_path):
     assert result == []
 
 
-def test_add_expense_without_existing_file(tmp_path):
+def test_save_expense_without_existing_file(tmp_path):
     csv_file = tmp_path / "expense.csv"
 
     expense = SimpleNamespace(
@@ -78,7 +77,7 @@ def test_add_expense_without_existing_file(tmp_path):
         note = "Test",
         )
         
-    storage.add_expense(str(csv_file), expense)
+    storage.save_expense(str(csv_file), expense)
 
     with csv_file.open(newline="") as file:
         reader = csv.DictReader(file)
@@ -93,7 +92,7 @@ def test_add_expense_without_existing_file(tmp_path):
         }
     ]
 
-def test_add_expense_appends_existing_file(tmp_path):
+def test_save_expense_appends_existing_file(tmp_path):
     csv_file = tmp_path / "expense.csv"
 
     first_expense = SimpleNamespace(
@@ -110,8 +109,8 @@ def test_add_expense_appends_existing_file(tmp_path):
             note = "",
             )
         
-    storage.add_expense(str(csv_file), first_expense)
-    storage.add_expense(str(csv_file), second_expense)
+    storage.save_expense(str(csv_file), first_expense)
+    storage.save_expense(str(csv_file), second_expense)
 
     with csv_file.open(newline="") as file:
         reader = csv.DictReader(file)
@@ -122,7 +121,7 @@ def test_add_expense_appends_existing_file(tmp_path):
     assert rows[1]["category"] == "Bills"
 
 
-def test_add_expense_does_not_duplicate_header(tmp_path):
+def test_save_expense_does_not_duplicate_header(tmp_path):
     csv_file = tmp_path / "expense.csv"
 
     first_expense = SimpleNamespace(
@@ -139,8 +138,8 @@ def test_add_expense_does_not_duplicate_header(tmp_path):
             note="",
             )
         
-    storage.add_expense(str(csv_file), first_expense)
-    storage.add_expense(str(csv_file), second_expense)
+    storage.save_expense(str(csv_file), first_expense)
+    storage.save_expense(str(csv_file), second_expense)
 
     with csv_file.open(newline="") as file:
         rows = list(csv.reader(file))
@@ -148,10 +147,10 @@ def test_add_expense_does_not_duplicate_header(tmp_path):
     assert rows.count(["category", "amount", "date", "note"]) == 1
 
 
-def test_add_budget_without_existing_file(tmp_path):
+def test_save_budget_without_existing_file(tmp_path):
     csv_file = tmp_path / "budget.csv"
         
-    storage.add_budget(str(csv_file), "10/2026", "1000")
+    storage.save_budget(str(csv_file), "10/2026", "1000")
 
     with csv_file.open(newline="") as file:
         reader = csv.DictReader(file)
@@ -165,11 +164,11 @@ def test_add_budget_without_existing_file(tmp_path):
     ]
 
 
-def test_add_budget_appends_existing_file(tmp_path):
+def test_save_budget_appends_existing_file(tmp_path):
     csv_file = tmp_path / "budget.csv"
         
-    storage.add_budget(str(csv_file), "10/2026", "1000")
-    storage.add_budget(str(csv_file), "11/2026", "2000")
+    storage.save_budget(str(csv_file), "10/2026", "1000")
+    storage.save_budget(str(csv_file), "11/2026", "2000")
 
     with csv_file.open(newline="") as file:
         reader = csv.DictReader(file)
@@ -180,11 +179,11 @@ def test_add_budget_appends_existing_file(tmp_path):
     assert rows[1]["date"] == "11/2026"
 
 
-def test_add_budget_does_not_duplicate_header(tmp_path):
+def test_save_budget_does_not_duplicate_header(tmp_path):
     csv_file = tmp_path / "budget.csv"
         
-    storage.add_budget(str(csv_file), "10/2026", "1000")
-    storage.add_budget(str(csv_file), "11/2026", "2000")
+    storage.save_budget(str(csv_file), "10/2026", "1000")
+    storage.save_budget(str(csv_file), "11/2026", "2000")
 
     with csv_file.open(newline="") as file:
         rows = list(csv.reader(file))
@@ -229,3 +228,22 @@ def test_delete_line(tmp_path):
         rows = file.readlines()
 
     assert len(rows) == 2
+
+
+def test_update_budget_file_overwrites_correctly(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    with open("budget.csv", "w", newline="") as file:
+        file.write("date,amount\n10/2026,10000\n")
+
+    updated_budget_list = [{
+        "date": "10/2026",
+        "amount": "11111",
+        }]
+
+    storage.update_budget_file(updated_budget_list)
+
+    with open("budget.csv", newline="") as file:
+        rows = list(csv.DictReader(file))
+
+    assert rows[0]["amount"] == "11111"
