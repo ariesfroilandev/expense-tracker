@@ -1,8 +1,9 @@
 from decimal import Decimal
 from datetime import datetime
-from storage import read_csvfile
+from storage import read_csvfile, save_expense
 from utils import get_options, select_and_validate, validate_format, yes_no_loop
 from expense_categories import get_category_list
+from classes import Expense
 
 
 options = {
@@ -75,8 +76,8 @@ def filter_expenses(filter):
             if input_filter in category_list:
                 break
             print(f"{input_filter} is not on the category list.")
-            exit = yes_no_loop("Would you like go back to the previous menu? [y/n]: ")
-            if exit == "y":
+            confirm = yes_no_loop("Would you like go back to the previous menu? [y/n]: ")
+            if confirm == "y":
                 return
 
     elif filter == "date":
@@ -92,3 +93,12 @@ def filter_expenses(filter):
         if row[filter] == input_filter
         ]
     return filtered_list
+
+
+def expense_add():
+    expense = Expense.add()
+    save_expense("expenses.csv", expense)
+    print("=======================")
+    print("Expense added")
+    print("=======================")
+    input()

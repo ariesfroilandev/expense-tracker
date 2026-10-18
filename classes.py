@@ -1,7 +1,6 @@
 from utils import validate_format, x_selected, yes_no_loop, match_dates, get_budget_list, fix_date_format
 from decimal import Decimal, InvalidOperation
 from expense_categories import get_category_list, show_expense_categories
-import storage
 
 
 class FinancialRecord():
@@ -36,9 +35,8 @@ class FinancialRecord():
 
         self._amount = value
 
-
     @classmethod
-    def get(cls, update=False, for_expense_class=False):
+    def get_input(cls):
         # set Param update to True if updating an existing budget
         # default Param False if adding a new budget
         print("Input [x] anytime to cancel and go back to main menu.")
@@ -55,26 +53,6 @@ class FinancialRecord():
                 break
 
             print("Invalid input. Date format should be (MM/YYYY)")
-
-        if not for_expense_class:
-            budget_list = get_budget_list()
-            match = match_dates(budget_list, date)
-
-            if not match and update:
-                print(f"No existing budget recorded for {date}.")
-                exit = yes_no_loop(f"Would you like to add a budget for {date}? [y/n]: ")
-
-                if exit == "n":
-                    return
-                # update set to False to indicate the process is now adding instead of updating
-                update = False
-
-            if match and not update:
-                print(f"Existing budget found for {date}.")
-                if yes_no_loop(f"Would you like to update the budget for {date}? [y/n]: ") == "n":
-                    return
-
-                update = True
 
         # Input validation for amount
         while True:
@@ -93,7 +71,7 @@ class FinancialRecord():
 
             print("Please enter a valid amount.")
 
-        return date, amount, update
+        return cls(date, amount)
 
 
 class Expense(FinancialRecord):
@@ -120,10 +98,8 @@ class Expense(FinancialRecord):
         print("      ADD EXPENSE")
         print("=======================")
 
-        if not (record := super().get(for_expense_class=True)):
+        if not (record := FinancialRecord.get_input()):
             return
-
-        date, amount, _ = record
 
         show_expense_categories(True)
         category_list = get_category_list()
@@ -143,10 +119,6 @@ class Expense(FinancialRecord):
         if x_selected(note):
             return
         
-        expense = cls(category, amount, date, note)
-        storage.add_expense("expenses.csv", expense)
-        print("=======================")
-        print("Expense added")
-        print("=======================")
-        input()
+        expense = cls(category, record.amount, record.date, note)
+        return expense
    
